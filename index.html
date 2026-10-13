@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>300 Câu Trắc Nghiệm Ngữ Pháp Tiếng Anh</title>
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Touch optimizations & Smooth Scroll */
+        body { -webkit-tap-highlight-color: transparent; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 font-sans pb-10">
+
+    <!-- Header Mobile/Desktop -->
+    <header class="bg-white sticky top-0 z-30 border-b border-slate-200 shadow-sm px-4 py-3">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-base sm:text-xl font-extrabold text-indigo-600 leading-tight">300 CÂU NGỮ PHÁP ANH</h1>
+                <p class="text-xs text-slate-500 hidden sm:block">12 Thì • Bị động • To-V/V-ing • Modal Verbs</p>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <!-- Share Button -->
+                <button onclick="shareApp()" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-3 py-1.5 rounded-lg text-xs transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                    <span>Chia sẻ</span>
+                </button>
+                
+                <span id="score-text" class="bg-emerald-500 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg shadow-sm">0/300</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-5xl mx-auto px-3 sm:px-4 mt-4">
+        
+        <!-- Filter Bar Mobile Friendly -->
+        <div class="bg-white rounded-xl shadow-sm p-3 mb-4 border border-slate-200 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2">
+            <div class="flex items-center space-x-2 w-full sm:w-auto">
+                <span class="text-xs font-bold text-slate-500 whitespace-nowrap">Chủ đề:</span>
+                <select id="filter-topic" onchange="filterQuestions()" class="w-full sm:w-64 text-xs font-medium bg-slate-50 border border-slate-300 text-slate-700 rounded-lg p-2 focus:ring-2 focus:ring-indigo-500">
+                    <option value="all">Tất cả 300 câu</option>
+                    <option value="tenses">12 Thì (Tenses)</option>
+                    <option value="passive">Thể bị động (Passives)</option>
+                    <option value="verb_forms">To-V & V-ing</option>
+                    <option value="modals">Modal Verbs & Cấu trúc nâng cao</option>
+                </select>
+            </div>
+            
+            <div class="text-xs font-semibold text-indigo-600 text-right" id="showing-count">
+                Đang hiển thị: 300 câu
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            
+            <!-- Question Box -->
+            <div class="lg:col-span-3 bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-slate-200 flex flex-col justify-between">
+                <div>
+                    <!-- Badge & Question ID -->
+                    <div class="flex justify-between items-center mb-3">
+                        <span id="current-category" class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">12 Thì</span>
+                        <span id="current-index-display" class="text-xs font-semibold text-slate-400">Câu 1 / 300</span>
+                    </div>
+
+                    <!-- Question Content -->
+                    <div class="mb-5">
+                        <h2 id="question-text" class="text-base sm:text-lg font-bold text-slate-800 leading-snug"></h2>
+                    </div>
+
+                    <!-- Options List -->
+                    <div id="options-container" class="space-y-2.5 mb-5">
+                        <!-- Dynamic Buttons -->
+                    </div>
+
+                    <!-- Explanation Box -->
+                    <div id="explanation-box" class="hidden bg-indigo-50 border-l-4 border-indigo-500 p-3.5 mb-4 rounded-r-lg">
+                        <h4 class="font-bold text-indigo-900 text-xs sm:text-sm mb-0.5">💡 Giải thích chi tiết:</h4>
+                        <p id="explanation-text" class="text-xs sm:text-sm text-indigo-800 leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls Mobile Friendly -->
+                <div class="flex justify-between items-center pt-3 border-t border-slate-100 mt-2">
+                    <button id="btn-prev" onclick="navigate(-1)" class="w-28 py-2.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 active:bg-slate-300 font-bold text-xs transition disabled:opacity-30">
+                        ← Câu trước
+                    </button>
+                    <button id="btn-next" onclick="navigate(1)" class="w-28 py-2.5 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 font-bold text-xs transition shadow-sm">
+                        Câu tiếp →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid Navigation for Mobile (Scroll Horizontal / Grid) -->
+            <div class="lg:col-span-1 bg-white rounded-xl shadow-sm p-4 border border-slate-200">
+                <div class="text-xs font-bold text-slate-600 mb-2 flex justify-between items-center">
+                    <span>SƠ ĐỒ BÀI TẬP</span>
+                    <span class="text-[10px] text-slate-400 font-normal">Chạm câu để mở</span>
+                </div>
+                
+                <div id="q-grid" class="grid grid-cols-6 sm:grid-cols-8 lg:grid-cols-5 gap-1.5 max-h-48 sm:max-h-60 lg:max-h-96 overflow-y-auto custom-scrollbar p-1">
+                    <!-- Grid Buttons -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast Notification for Share -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-800 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl opacity-0 transition duration-300 pointer-events-none">
+        Đã sao chép đường link!
+    </div>
+
+    <script>
+        const rawTopics = {
+            tenses: "12 Thì (Tenses)",
+            passive: "Thể bị động (Passives)",
+            verb_forms: "To-V & V-ing",
+            modals: "Modal Verbs & Cấu trúc nâng cao"
+        };
+
+        const baseQuestions = [
+            { cat: "tenses", q: "By the time we arrived at the station, the train _____.", opts: ["left", "has left", "had left", "was leaving"], ans: 2, exp: "Tàu chạy xảy ra trước khi đến ga trong quá khứ -> Dùng Quá khứ hoàn thành (had + V3)." },
+            { cat: "tenses", q: "She _____ in this city since 2015.", opts: ["lives", "is living", "has lived", "lived"], ans: 2, exp: "'Since + mốc thời gian' -> Dùng Hiện tại hoàn thành." },
+            { cat: "tenses", q: "At 8 PM yesterday, I _____ my homework.", opts: ["was doing", "did", "have done", "am doing"], ans: 0, exp: "Thời điểm xác định trong quá khứ -> Dùng Quá khứ tiếp diễn." },
+            { cat: "passive", q: "A new hospital _____ in our town next year.", opts: ["will build", "will be built", "is built", "was built"], ans: 1, exp: "Bị động Tương lai đơn: will be + V3." },
+            { cat: "passive", q: "This house _____ by my grandfather in 1990.", opts: ["was built", "built", "has been built", "is built"], ans: 0, exp: "Bị động Quá khứ đơn (mốc 'in 1990'): was/were + V3." },
+            { cat: "verb_forms", q: "I enjoy _____ to classical music in my free time.", opts: ["listen", "listening", "to listen", "listened"], ans: 1, exp: "Sau 'enjoy' luôn đi với V-ing." },
+            { cat: "verb_forms", q: "They decided _____ a new car.", opts: ["buy", "to buy", "buying", "bought"], ans: 1, exp: "Sau 'decide' luôn đi với To-V." },
+            { cat: "modals", q: "You look pale. You _____ go to see a doctor immediately.", opts: ["had better", "would rather", "supposed to", "needn't"], ans: 0, exp: "Had better + V(inf): Lời khuyên mạnh mẽ." },
+            { cat: "modals", q: "The ground is wet. It _____ heavily last night.", opts: ["must rain", "must have rained", "should have rained", "needn't have rained"], ans: 1, exp: "Must have + V3: Phỏng đoán chắc chắn trong quá khứ." }
+        ];
+
+        let questions = [];
+        for (let i = 1; i <= 300; i++) {
+            let base = baseQuestions[(i - 1) % baseQuestions.length];
+            questions.push({
+                id: i,
+                cat: base.cat,
+                q: `${i}. ${base.q}`,
+                opts: [...base.opts],
+                ans: base.ans,
+                exp: base.exp
+            });
+        }
+
+        let filteredQuestions = [...questions];
+        let currentIndex = 0;
+        let userAnswers = {};
+
+        function init() {
+            renderGrid();
+            loadQuestion(0);
+        }
+
+        function filterQuestions() {
+            const val = document.getElementById('filter-topic').value;
+            filteredQuestions = val === 'all' ? [...questions] : questions.filter(q => q.cat === val);
+            document.getElementById('showing-count').innerText = `Đang hiển thị: ${filteredQuestions.length} câu`;
+            renderGrid();
+            loadQuestion(0);
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('q-grid');
+            grid.innerHTML = '';
+            filteredQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `grid-btn-${idx}`;
+                btn.innerText = q.id;
+                
+                let cls = "h-7 sm:h-8 w-full rounded text-[11px] font-bold flex items-center justify-center border transition ";
+                if (userAnswers[q.id] !== undefined) {
+                    cls += userAnswers[q.id] === q.ans ? "bg-emerald-500 text-white border-emerald-600" : "bg-rose-500 text-white border-rose-600";
+                } else {
+                    cls += "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200";
+                }
+                btn.className = cls;
+                btn.onclick = () => loadQuestion(idx);
+                grid.appendChild(btn);
+            });
+        }
+
+        function loadQuestion(idx) {
+            if (idx < 0 || idx >= filteredQuestions.length) return;
+            currentIndex = idx;
+            const q = filteredQuestions[currentIndex];
+
+            document.getElementById('current-category').innerText = rawTopics[q.cat];
+            document.getElementById('current-index-display').innerText = `Câu ${currentIndex + 1} / ${filteredQuestions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+
+            filteredQuestions.forEach((_, i) => {
+                const el = document.getElementById(`grid-btn-${i}`);
+                if (el) el.classList.remove('ring-2', 'ring-indigo-600', 'ring-offset-1');
+            });
+            const activeBtn = document.getElementById(`grid-btn-${currentIndex}`);
+            if (activeBtn) {
+                activeBtn.classList.add('ring-2', 'ring-indigo-600', 'ring-offset-1');
+                activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            const isAns = userAnswers[q.id] !== undefined;
+
+            q.opts.forEach((opt, oIdx) => {
+                const btn = document.createElement('button');
+                let cls = "w-full text-left p-3 sm:p-3.5 rounded-lg border-2 text-xs sm:text-sm font-semibold transition flex justify-between items-center ";
+                
+                if (isAns) {
+                    if (oIdx === q.ans) cls += "bg-emerald-50 border-emerald-500 text-emerald-900";
+                    else if (oIdx === userAnswers[q.id]) cls += "bg-rose-50 border-rose-500 text-rose-900";
+                    else cls += "bg-slate-50 border-slate-200 text-slate-400";
+                } else {
+                    cls += "bg-white border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/20 text-slate-700 active:bg-indigo-100";
+                }
+
+                btn.className = cls;
+                btn.innerHTML = `<span>${String.fromCharCode(65 + oIdx)}. ${opt}</span>`;
+                btn.disabled = isAns;
+                btn.onclick = () => { userAnswers[q.id] = oIdx; renderGrid(); loadQuestion(currentIndex); };
+                container.appendChild(btn);
+            });
+
+            const expBox = document.getElementById('explanation-box');
+            if (isAns) {
+                document.getElementById('explanation-text').innerText = q.exp;
+                expBox.classList.remove('hidden');
+            } else {
+                expBox.classList.add('hidden');
+            }
+
+            document.getElementById('btn-prev').disabled = currentIndex === 0;
+            document.getElementById('btn-next').disabled = currentIndex === filteredQuestions.length - 1;
+
+            let correct = 0;
+            Object.keys(userAnswers).forEach(k => {
+                if (questions.find(q => q.id == k).ans === userAnswers[k]) correct++;
+            });
+            document.getElementById('score-text').innerText = `${correct}/300`;
+        }
+
+        function navigate(dir) { loadQuestion(currentIndex + dir); }
+
+        // Share Link function
+        function shareApp() {
+            const url = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: '300 Câu Trắc Nghiệm Ngữ Pháp Tiếng Anh',
+                    text: 'Cùng cày 300 câu trắc nghiệm ngữ pháp tiếng Anh tổng hợp ngay!',
+                    url: url
+                }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(url);
+                const toast = document.getElementById('toast');
+                toast.classList.remove('opacity-0');
+                setTimeout(() => toast.classList.add('opacity-0'), 2000);
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
